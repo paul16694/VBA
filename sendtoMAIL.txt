@@ -1,0 +1,73 @@
+Private Sub CommandButton4_Click()
+
+    
+    Dim Quellentabelle As Worksheet
+    Dim Zeilennummer As Long
+    Dim lieferant As String
+    Dim Artikelbezeichnung As String
+    Dim Materialbeistellung As String
+    Dim Menge As String
+    Dim Liefertermin As String
+    Dim Anfragenummer As String
+    Dim Mailtext As String
+    Dim Empfaenger As String
+    Dim betreff As String
+    Dim Absender As String
+    Dim OutApp As Object
+    Dim OutMail As Object
+
+    Set Quellentabelle = ThisWorkbook.Worksheets("Bestellungen")
+ 
+    Zeilennummer = CLng(InputBox("Bitte geben Sie die Zeilennummer ein:", "Zeilennummer"))
+
+    Artikelbezeichnung = Quellentabelle.Range("H" & Zeilennummer).Value
+    Materialbeistellung = Quellentabelle.Range("AW" & Zeilennummer).Value
+    Menge = Quellentabelle.Range("I" & Zeilennummer).Value
+    Liefertermin = Quellentabelle.Range("A" & Zeilennummer).Value
+    Anfragenummer = Quellentabelle.Range("A" & Zeilennummer).Value
+    
+   
+    lieferant = InputBox("Bitte geben Sie den Lieferanten ein (EWE, SSL, etc.):", "Lieferant auswählen")
+    
+ 
+    Select Case lieferant
+        Case "EWE"
+            Empfaenger = "example@paul.de"
+            Absender = "Hi Benny,"
+            Mailtext = Absender & vbNewLine & vbNewLine & _
+                       "wir bitten um Preis für " & Artikelbezeichnung & "." & vbNewLine & _
+                       Materialbeistellung & "." & vbNewLine & _
+                       "Menge: " & Menge & " Stück." & vbNewLine & _
+                       "Würdest du es bis zum " & Liefertermin & " schaffen?" & vbNewLine & _
+                       "Vielen Dank für deine Bemühungen."
+           Case "SSL"
+            Empfaenger = "example@lieferantx.de"
+            Absender = "Sehr geehrter Herr Kauer,"
+            Mailtext = Absender & vbNewLine & vbNewLine & _
+                       "bitte senden Sie uns ein Angebot für den folgenden Artikel:" & vbNewLine & _
+                       "Artikel: " & Artikelbezeichnung & vbNewLine & _
+                       "Material: " & Materialbeistellung & vbNewLine & _
+                       "Menge: " & Menge & " Stück" & vbNewLine & _
+                       "Liefertermin: " & Liefertermin & vbNewLine & _
+                       "Vielen Dank!"
+        Case Else
+            MsgBox "Lieferant nicht bekannt. Abbruch."
+            Exit Sub
+    End Select
+    
+    betreff = "Preisanfrage " & Anfragenummer
+   
+    Set OutApp = CreateObject("Outlook.Application")
+    Set OutMail = OutApp.CreateItem(0)
+    
+     With OutMail
+        .To = Empfaenger
+        .Subject = betreff
+        .Body = Mailtext
+        .Display
+    End With
+    
+    Set OutMail = Nothing
+    Set OutApp = Nothing
+
+End Sub

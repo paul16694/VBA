@@ -1,0 +1,72 @@
+Private Sub cmdCalculate_Click()
+    ' Variablen für die Berechnung
+    Dim material As String
+    Dim dichte As Double
+    Dim volumen As Double
+    Dim gewicht As Double
+    Dim laenge As Double
+    
+    ' Material auswählen und Dichte festlegen
+    material = ComboBox1.Value
+    
+    Select Case material
+        Case "Stahl"
+            dichte = 7.85 ' g/cm³
+        Case "Aluminium"
+            dichte = 2.7 ' g/cm³
+        Case "Kupfer"
+            dichte = 8.96 ' g/cm³
+        Case Else
+            MsgBox "Bitte wählen Sie ein Material aus.", vbExclamation
+            Exit Sub
+    End Select
+    
+    ' Länge des Materials in cm umrechnen
+    If IsNumeric(TextBox3.Value) Then
+        laenge = Val(TextBox3.Value) / 10 ' mm in cm umrechnen
+    Else
+        laenge = 0 ' Ignoriere die Länge, wenn kein gültiger Wert eingegeben wird
+    End If
+    
+    ' Berechnung für Flachmaterial (wenn Werte in TextBox4 und TextBox5 vorhanden sind)
+    If IsNumeric(TextBox4.Value) And IsNumeric(TextBox5.Value) And laenge > 0 Then
+        Dim breite As Double
+        Dim hoehe As Double
+        
+        breite = Val(TextBox4.Value) / 10 ' mm in cm umrechnen
+        hoehe = Val(TextBox5.Value) / 10 ' mm in cm umrechnen
+        
+        ' Volumen berechnen (Rechteckformel)
+        volumen = breite * hoehe * laenge ' cm³
+        
+    ' Berechnung für Rundrohr (wenn Werte in TextBox6 und TextBox7 vorhanden sind)
+    ElseIf IsNumeric(TextBox6.Value) And IsNumeric(TextBox7.Value) And laenge > 0 Then
+        Dim aussendurchmesser As Double
+        Dim innendurchmesser As Double
+        
+        aussendurchmesser = Val(TextBox6.Value) / 10 ' mm in cm umrechnen
+        innendurchmesser = Val(TextBox7.Value) / 10 ' mm in cm umrechnen
+        
+        ' Volumen berechnen (Differenz der Zylinderformeln)
+        volumen = WorksheetFunction.Pi() * ((aussendurchmesser / 2) ^ 2 - (innendurchmesser / 2) ^ 2) * laenge ' cm³
+        
+    ' Berechnung für Rundmaterial (wenn nur TextBox2 vorhanden ist)
+    ElseIf IsNumeric(TextBox2.Value) And laenge > 0 Then
+        Dim durchmesser As Double
+        
+        durchmesser = Val(TextBox2.Value) / 10 ' mm in cm umrechnen
+        
+        ' Volumen berechnen (Zylinderformel)
+        volumen = WorksheetFunction.Pi() * (durchmesser / 2) ^ 2 * laenge ' cm³
+    Else
+        MsgBox "Bitte geben Sie gültige Werte für die relevanten Abmessungen ein.", vbExclamation
+        Exit Sub
+    End If
+    
+    ' Gewicht berechnen
+    gewicht = volumen * dichte ' in Gramm
+    
+    ' Gewicht in der TextBox anzeigen (in Kilogramm)
+    txtGewicht.Value = gewicht / 1000 & " kg"
+End Sub
+
