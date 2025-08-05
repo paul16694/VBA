@@ -1,10 +1,10 @@
 Attribute VB_Name = "Modul16"
 Sub SendEmail()
-    ' Variablen für Outlook und Email
+    ' Variablen fÃ¼r Outlook und Email
     Dim OutlookApp As Object
     Dim OutlookMail As Object
     
-    ' Variablen für die Excel-Zellenwerte
+    ' Variablen fÃ¼r die Excel-Zellenwerte
     Dim stueck As String
     Dim material As String
     Dim Materialbeistellung As String
@@ -17,15 +17,15 @@ Sub SendEmail()
     ' Benutzer nach der Zeilennummer fragen
     zeile = InputBox("Bitte geben Sie die Zeilennummer ein:", "Zeilennummer eingeben")
     
-    ' Überprüfen, ob eine gültige Zeilennummer eingegeben wurde
+    ' ÃœberprÃ¼fen, ob eine gÃ¼ltige Zeilennummer eingegeben wurde
     If zeile <= 0 Or zeile > Rows.Count Then
-        MsgBox "Ungültige Zeilennummer. Das Makro wird beendet.", vbExclamation
+        MsgBox "UngÃ¼ltige Zeilennummer. Das Makro wird beendet.", vbExclamation
         Exit Sub
     End If
     
     ' Outlook starten
     Set OutlookApp = CreateObject("Outlook.Application")
-    Set OutlookMail = OutlookApp.CreateItem(0) ' 0 steht für olMailItem
+    Set OutlookMail = OutlookApp.CreateItem(0) ' 0 steht fÃ¼r olMailItem
     
     ' Werte aus den Excel-Zellen holen
     stueck = Sheets("Bestellung").Range("H3").Value
@@ -35,10 +35,10 @@ Sub SendEmail()
     betreff = "Preisanfrage " & Sheets("Bestellung").Range("A3").Value
     bezeichnung = Sheets("Bestellung").Range("F3").Value
     
-    ' Empfängeradresse basierend auf dem Wert in Bestellung!J3 bestimmen
-    If empfanger = "EWE" Then
+    ' EmpfÃ¤ngeradresse basierend auf dem Wert in Bestellung!J3 bestimmen
+    If empfanger = "Lieferant1" Then
         empfangsadresse = "paul.schulze@online.de"
-    ElseIf empfanger = "SSL" Then
+    ElseIf empfanger = "Lieferant2" Then
         empfangsadresse = "@ddfdfdf"
     Else
         empfangsadresse = "" ' Leere Adresse, falls nichts zutrifft
@@ -49,16 +49,16 @@ Sub SendEmail()
         .To = empfangsadresse
         .Subject = betreff
         .Body = "Guten Morgen," & vbNewLine & vbNewLine & _
-                "wir haben eine Anfrage über " & stueck & " Stück " & bezeichnung & " im Hause." & vbNewLine & _
+                "wir haben eine Anfrage Ã¼ber " & stueck & " StÃ¼ck " & bezeichnung & " im Hause." & vbNewLine & _
                 "Material ist " & material & ". Materialbeistellung " & Materialbeistellung & "." & vbNewLine & vbNewLine & _
-                "Können Sie uns hierzu ein Angebot anbieten?" & vbNewLine & vbNewLine & _
+                "KÃ¶nnen Sie uns hierzu ein Angebot anbieten?" & vbNewLine & vbNewLine & _
                 "Vielen Dank vorab!" & vbNewLine & _
-                "Mit freundlichen Grüßen" & vbNewLine & vbNewLine & _
+                "Mit freundlichen GrÃ¼ÃŸen" & vbNewLine & vbNewLine & _
                 "Paul Schulze"
-        .Display ' E-Mail wird geöffnet, aber nicht gesendet
+        .Display ' E-Mail wird geÃ¶ffnet, aber nicht gesendet
     End With
     
-    ' Aufräumen
+    ' AufrÃ¤umen
     Set OutlookMail = Nothing
     Set OutlookApp = Nothing
 End Sub
