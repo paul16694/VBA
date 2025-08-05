@@ -24,7 +24,7 @@ Private Sub CommandButton1_Click()
     ' Verberge die aktuelle UserForm (z.B. UserForm4)
     Me.Hide
     
-    ' Überprüfe, ob UserForm4 bereits sichtbar ist
+    ' ÃœberprÃ¼fe, ob UserForm4 bereits sichtbar ist
     If UserForm4.Visible = False Then
         UserForm4.Show
     End If
@@ -32,7 +32,7 @@ End Sub
 
 
 Private Sub cmdSendEmail_Click()
-    ' Variablen für Outlook und Email
+    ' Variablen fÃ¼r Outlook und Email
     Dim OutlookApp As Object
     Dim OutlookMail As Object
     Dim empfanger As String
@@ -41,20 +41,20 @@ Private Sub cmdSendEmail_Click()
     Dim lieferant As String
     Dim bestelldetails As String
     
-    ' Überprüfen, ob ein Lieferant (Option Button) ausgewählt wurde
+    ' ÃœberprÃ¼fen, ob ein Lieferant (Option Button) ausgewÃ¤hlt wurde
     If Not (optLotter.Value Or optIBL.Value Or optstappert.Value Or optBP.Value Or optHandelshof.Value) Then
-        MsgBox "Bitte wählen Sie einen Lieferanten aus.", vbExclamation
+        MsgBox "Bitte wÃ¤hlen Sie einen Lieferanten aus.", vbExclamation
         Exit Sub
     End If
     
     ' Outlook starten
     Set OutlookApp = CreateObject("Outlook.Application")
-    Set OutlookMail = OutlookApp.CreateItem(0) ' 0 steht für olMailItem
+    Set OutlookMail = OutlookApp.CreateItem(0) ' 0 steht fÃ¼r olMailItem
     
     ' Lieferanten basierend auf der Auswahl festlegen
     If optLotter.Value Then
-        empfanger = "i.schenk@lotter.de"
-        lieferant = "Frau Prasse"
+        empfanger = "i@example.de"
+        lieferant = "Frau Schulze"
     ElseIf optIBL.Value Then
         empfanger = "paul.schulze@online.de"
         lieferant = "Herr Schulze"
@@ -62,20 +62,20 @@ Private Sub cmdSendEmail_Click()
         empfanger = "merzsch@info.de"
         lieferant = "Herr Merz"
     ElseIf optBP.Value Then
-        empfanger = "blechprofil@info.de"
+        empfanger = "Lieferant1@info.de"
         lieferant = "Blechprofil-Team"
     ElseIf optHandelshof.Value Then
-        empfanger = "handelshof@info.de"
+        empfanger = "Lieferant3@info.de"
         lieferant = "Handelshof-Team"
     End If
     
     ' Betreff festlegen
     betreff = "Preisanfrage"
     
-    ' Bestelldetails aus dem Textfeld übernehmen
+    ' Bestelldetails aus dem Textfeld Ã¼bernehmen
     bestelldetails = Trim(txtRows.Value)
     
-    ' Überprüfen, ob das Textfeld leer ist
+    ' ÃœberprÃ¼fen, ob das Textfeld leer ist
     If bestelldetails = "" Then
         MsgBox "Bitte geben Sie die Bestelldetails in das Textfeld ein.", vbExclamation
         Exit Sub
@@ -83,19 +83,19 @@ Private Sub cmdSendEmail_Click()
     
     ' Email-Body erstellen
     EmailBody = "Hallo " & lieferant & "," & vbNewLine & vbNewLine & _
-                "wir bitten um Preis und Lieferzeit für folgende Position:" & vbNewLine & vbNewLine & _
+                "wir bitten um Preis und Lieferzeit fÃ¼r folgende Position:" & vbNewLine & vbNewLine & _
                 bestelldetails & vbNewLine & vbNewLine & _
-                "Vielen Dank für Ihre Bemühungen." & vbNewLine
+                "Vielen Dank fÃ¼r Ihre BemÃ¼hungen." & vbNewLine
     
     ' Email erstellen
     With OutlookMail
         .To = empfanger
         .Subject = betreff
         .Body = EmailBody
-        .Display ' E-Mail wird geöffnet, aber nicht gesendet
+        .Display ' E-Mail wird geÃ¶ffnet, aber nicht gesendet
     End With
     
-    ' Aufräumen
+    ' AufrÃ¤umen
     Set OutlookMail = Nothing
     Set OutlookApp = Nothing
 End Sub
