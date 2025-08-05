@@ -23,7 +23,7 @@ Sub SendEmail()
     End If
     
     Set OutlookApp = CreateObject("Outlook.Application")
-    Set OutlookMail = OutlookApp.CreateItem(0) ' 0 steht für olMailItem
+    Set OutlookMail = OutlookApp.CreateItem(0) 
 
     stueck = Sheets("Bestellung").Range("H3").Value
     material = Sheets("Bestellung").Range("G3").Value
@@ -38,7 +38,7 @@ Sub SendEmail()
     ElseIf empfanger = "Lieferant2" Then
         empfangsadresse = "@ddfdfdf"
     Else
-        empfangsadresse = "" ' Leere Adresse, falls nichts zutrifft
+        empfangsadresse = "" 
     End If
     
 
@@ -52,7 +52,7 @@ Sub SendEmail()
                 "Vielen Dank vorab!" & vbNewLine & _
                 "Mit freundlichen Grüßen" & vbNewLine & vbNewLine & _
                 "Paul Schulze"
-        .Display ' E-Mail wird geöffnet, aber nicht gesendet
+        .Display 
     End With
     
 
