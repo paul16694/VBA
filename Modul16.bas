@@ -14,20 +14,17 @@ Sub SendEmail()
     
        Dim zeile As Integer
     
-    ' Benutzer nach der Zeilennummer fragen
     zeile = InputBox("Bitte geben Sie die Zeilennummer ein:", "Zeilennummer eingeben")
     
-    ' Überprüfen, ob eine gültige Zeilennummer eingegeben wurde
+
     If zeile <= 0 Or zeile > Rows.Count Then
         MsgBox "Ungültige Zeilennummer. Das Makro wird beendet.", vbExclamation
         Exit Sub
     End If
     
-    ' Outlook starten
     Set OutlookApp = CreateObject("Outlook.Application")
     Set OutlookMail = OutlookApp.CreateItem(0) ' 0 steht für olMailItem
-    
-    ' Werte aus den Excel-Zellen holen
+
     stueck = Sheets("Bestellung").Range("H3").Value
     material = Sheets("Bestellung").Range("G3").Value
     Materialbeistellung = Sheets("Bestellung").Range("I3").Value
@@ -35,7 +32,7 @@ Sub SendEmail()
     betreff = "Preisanfrage " & Sheets("Bestellung").Range("A3").Value
     bezeichnung = Sheets("Bestellung").Range("F3").Value
     
-    ' Empfängeradresse basierend auf dem Wert in Bestellung!J3 bestimmen
+
     If empfanger = "Lieferant1" Then
         empfangsadresse = "paul.schulze@online.de"
     ElseIf empfanger = "Lieferant2" Then
@@ -44,7 +41,7 @@ Sub SendEmail()
         empfangsadresse = "" ' Leere Adresse, falls nichts zutrifft
     End If
     
-    ' Email erstellen
+
     With OutlookMail
         .To = empfangsadresse
         .Subject = betreff
@@ -58,7 +55,7 @@ Sub SendEmail()
         .Display ' E-Mail wird geöffnet, aber nicht gesendet
     End With
     
-    ' Aufräumen
+
     Set OutlookMail = Nothing
     Set OutlookApp = Nothing
 End Sub
