@@ -12,14 +12,11 @@ Sub KUNDENABerstellenPDF()
     Dim Liefertermin As Variant
     Dim antwort As VbMsgBoxResult
 
-    ' Legen Sie den Namen der Quelltabelle und der Zieltabelle fest
     Set Quellentabelle = ThisWorkbook.Worksheets("Bestellungen")
     Set Zieltabelle = ThisWorkbook.Worksheets("ABKunde")
 
-    ' Eingabe der Zeilennummer
-    Zeilennummer = CLng(InputBox("Bitte geben Sie die Zeilennummer in Spalte A ein:", "Zeilennummer"))
+      Zeilennummer = CLng(InputBox("Bitte geben Sie die Zeilennummer in Spalte A ein:", "Zeilennummer"))
 
-    ' Daten aus Quelltabelle in Zieltabelle übertragen
     Zieltabelle.Range("A3").Value = Quellentabelle.Range("D" & Zeilennummer).Value
     Zieltabelle.Range("C10").Value = Quellentabelle.Range("C" & Zeilennummer).Value
     Zieltabelle.Range("C11").Value = Quellentabelle.Range("A" & Zeilennummer).Value
@@ -27,29 +24,24 @@ Sub KUNDENABerstellenPDF()
     Zieltabelle.Range("C14").Value = Quellentabelle.Range("F" & Zeilennummer).Value
     Zieltabelle.Range("A17").Value = Quellentabelle.Range("B" & Zeilennummer).Value
     
-    ' Liefertermin aus Quellentabelle übernehmen
     Liefertermin = Quellentabelle.Range("AV" & Zeilennummer).Value
-
-    ' Frage, ob der Liefertermin eingehalten werden kann
-    antwort = MsgBox("Kann der Liefertermin " & Liefertermin & " eingehalten werden? Klicken Sie 'Ja', um den Termin zu übernehmen, oder 'Nein', um ein neues Datum einzugeben.", vbYesNo + vbQuestion, "Liefertermin Abfrage")
+    antwort = MsgBox("Kann der Liefertermin " & Liefertermin & " eingehalten werden? Klicken Sie 'Ja', um den Termin zu Ã¼bernehmen, oder 'Nein', um ein neues Datum einzugeben.", vbYesNo + vbQuestion, "Liefertermin Abfrage")
 
     If antwort = vbYes Then
-        ' Liefertermin übernehmen
+
         Zieltabelle.Range("C25").Value = Liefertermin
     Else
-        ' Benutzer nach einem neuen Liefertermin fragen
+
         Dim neuerLiefertermin As Variant
         neuerLiefertermin = InputBox("Bitte geben Sie den neuen Liefertermin ein (TT.MM.JJJJ):", "Neuer Liefertermin", Liefertermin)
         
-        ' Sicherstellen, dass der Benutzer ein gültiges Datum eingegeben hat
         If IsDate(neuerLiefertermin) Then
             Zieltabelle.Range("C25").Value = CDate(neuerLiefertermin)
         Else
-            MsgBox "Ungültiges Datum eingegeben. Der Liefertermin wird nicht übernommen.", vbExclamation, "Fehler"
+            MsgBox "UngÃ¼ltiges Datum eingegeben. Der Liefertermin wird nicht Ã¼bernommen.", vbExclamation, "Fehler"
         End If
     End If
-
-    ' Weitere Daten aus Quellentabelle in Zieltabelle übertragen
+   
     Zieltabelle.Range("B17").Value = Quellentabelle.Range("H" & Zeilennummer).Value
     Zieltabelle.Range("C17").Value = Quellentabelle.Range("I" & Zeilennummer).Value
     Zieltabelle.Range("E17").Value = Quellentabelle.Range("J" & Zeilennummer).Value
@@ -57,7 +49,7 @@ Sub KUNDENABerstellenPDF()
                          
     Bestellnummer = Quellentabelle.Range("A" & Zeilennummer).Value
 
-    speicherPfad = "D:\LWM\14 Zertifizierung\0 Vorlagen\Auftragsbestätigung "
+    speicherPfad = "D:\LWM\14 Zertifizierung\0 Vorlagen\AuftragsbestÃ¤tigung "
     dateiname = Zieltabelle.Range("C13").Value
 
     ' PDF erstellen und speichern
